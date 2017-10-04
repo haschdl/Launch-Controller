@@ -8,7 +8,6 @@
 #include <thread>
 #include <stdlib.h>
 #include <crtdbg.h>
-#include "LaunchControl.h"
 #include <algorithm>
 #include <string>
 #include <iostream>
@@ -20,8 +19,10 @@ int main()
 {
 	try {
 
-		launchControl = new LaunchControl(false, true);
+		launchControl = new LaunchControl(true);
 
+
+		launchControl->init();
 
 
 		//Setting template to factory 1

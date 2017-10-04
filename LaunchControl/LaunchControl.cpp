@@ -26,9 +26,9 @@ LaunchControl::ColorBrightnessEnum LaunchControl::ColorBrightness[] = { Off,Gree
 /*
 Constructor.
 Note: the values below correspond to Factory Template number 1.
-If you are not sure which template is currently set, hold the Factory button.
+If you are not sure which template is currently set, hold the Factory button in the device.
 */
-LaunchControl::LaunchControl(bool throwIfNotFound, bool toggleMode, LaunchControl::LogMode logMode) : midiin(nullptr), midiout(nullptr),
+LaunchControl::LaunchControl(bool toggleMode, LaunchControl::LogMode logMode) : midiin(nullptr), midiout(nullptr),
 SYSEX_ID{ 0x00, 0x20, 0x29 },
 KNOB_1_LOW{ 184, 41, 0 },
 KNOB_2_LOW{ 184, 42, 0 },
@@ -64,37 +64,29 @@ PAD_8{ 152, 28, 127 }
 	ptMidiCallback = this;
 	forceToggleMode = toggleMode;
 
-	try {
-		// RtMidiIn constructor
-		midiin = new RtMidiIn();
-		midiout = new RtMidiOut();
-
-		openLaunchControlMidiPorts(midiin, midiout);
-
-		// Set our callback function.  This should be done immediately after
-		// opening the port to avoid having incoming messages written to the
-		// queue instead of sent to the callback function.
-		midiin->setCallback(&midiInCallbackWrapper, 0);
-
-		// Don't ignore sysex, timing, or active sensing messages.
-		midiin->ignoreTypes(false, false, false);
-	}
-	catch (RtMidiError)
-	{
-		if (throwIfNotFound)
-			throw;
-	}
+	// RtMidiIn constructor
+	midiin = new RtMidiIn();
+	midiout = new RtMidiOut();
 }
 
+void LaunchControl::init() {
+	openLaunchControlMidiPorts(midiin, midiout);
 
+	// Set our callback function.  This should be done immediately after
+	// opening the port to avoid having incoming messages written to the
+	// queue instead of sent to the callback function.
+	midiin->setCallback(&midiInCallbackWrapper, 0);
+
+	// Don't ignore sysex, timing, or active sensing messages.
+	midiin->ignoreTypes(false, false, false);
+
+}
 
 LaunchControl::~LaunchControl()
 {
-
 	delete midiin;
 	delete midiout;
 	_CrtDumpMemoryLeaks();
-
 }
 
 void LaunchControl::midiInCallback(double deltatime, std::vector< unsigned char > *message, void *)
@@ -529,6 +521,8 @@ bool LaunchControl::openLaunchControlMidiPorts(RtMidiIn *midiIn, RtMidiOut *midi
 	std::string portName;
 	for (unsigned int i = 0; i < nPorts; i++) {
 		portName = midiIn->getPortName(i);
+		std::cout << "Port " << i << ": " << portName << "\n";
+
 		//Using LaunchControl in this case
 		if (portName.find(DEVICE_NAME) != std::string::npos)
 		{

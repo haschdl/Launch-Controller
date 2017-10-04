@@ -66,12 +66,12 @@ public:
 	/// <summary>	Constructor. </summary>
 	///
 	/// <remarks>	Scheihal, 22/04/2016. </remarks>
-	///
-	/// <param name="throwIfNotFound">	true to throw if not found. </param>
+	///	
 	/// <param name="toggleMode">	  	true to enable toggle mode, false to disable it. In toggle mode,
 	/// 								each pad LED will turn on and off after pressing.</param>
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	LaunchControl(bool throwIfNotFound, bool toggleMode, LaunchControl::LogMode logMode = LogMode::ERR);
+	LaunchControl(bool toggleMode, LaunchControl::LogMode logMode = LogMode::ERR);
+	void init();
 	~LaunchControl();
 	bool openLaunchControlMidiPorts(RtMidiIn *midiIn, RtMidiOut *midiOut);
 	
@@ -85,23 +85,6 @@ public:
 	//This can be seen from MIDI.org but also when send the non-standard buttons from the device, 
 	//such as Templates User and Factory
 	unsigned char SYSEX_ID[3];
-	/*unsigned char KNOB_1_UPPER[3];
-	unsigned char KNOB_2_UPPER[3];
-	unsigned char KNOB_3_UPPER[3];
-	unsigned char KNOB_4_UPPER[3];
-	unsigned char KNOB_5_UPPER[3];
-	unsigned char KNOB_6_UPPER[3];
-	unsigned char KNOB_7_UPPER[3];
-	unsigned char KNOB_8_UPPER[3];
-
-	unsigned char KNOB_1_LOW[3];
-	unsigned char KNOB_2_LOW[3];
-	unsigned char KNOB_3_LOW[3];
-	unsigned char KNOB_4_LOW[3];
-	unsigned char KNOB_5_LOW[3];
-	unsigned char KNOB_6_LOW[3];
-	unsigned char KNOB_7_LOW[3];
-	unsigned char KNOB_8_LOW[3];*/
 	Knob KNOB_1_UPPER;
 	Knob KNOB_2_UPPER;
 	Knob KNOB_3_UPPER;
@@ -139,19 +122,9 @@ public:
 	Pad PAD_6;
 	Pad PAD_7;
 	Pad PAD_8; 
-	/*unsigned char PAD_1[3]:
-	unsigned char PAD_2[3];
-	unsigned char PAD_3[3];
-	unsigned char PAD_4[3];
-	unsigned char PAD_5[3];
-	unsigned char PAD_6[3];
-	unsigned char PAD_7[3];
-	unsigned char PAD_8[3];*/
-	
-
 
 	/*
-	Hex Decimal Colour Brightness
+	Hex Decimal Colour Brightness, according to Novation LaunchControl documentation.
 	0Ch 12 Off Off
 	0Dh 13 Red Low
 	0Fh 15 Red Full

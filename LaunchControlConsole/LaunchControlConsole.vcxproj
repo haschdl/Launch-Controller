@@ -74,7 +74,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>c:\Program Files (x86)\Windows Kits\8.1\Include\um\;C:\Users\scheihal\Source\Repos\LaunchControlWrapper\LaunchControl;$(IncludePath)</IncludePath>
+    <IncludePath>c:\Program Files (x86)\Windows Kits\8.1\Include\um\;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -106,13 +107,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;__WINDOWS_MM__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\scheihal\Source\Repos\LaunchControlWrapper\x64\Debug;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\scheihal\Source\Repos\LaunchControlWrapper\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LaunchControl.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -161,6 +162,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LaunchControlConsole.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LaunchControl\LaunchControl.vcxproj">
+      <Project>{b55ff9a2-47de-4e17-b3c7-1f7a17350e19}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
